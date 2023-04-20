@@ -4,11 +4,9 @@ import { RouteRecordRaw } from 'vue-router';
 import { Layout, ParentLayout } from '@/router/constant';
 import type { AppRouteRecordRaw } from '@/router/types';
 
-const Iframe = () => import('@/views/iframe/index.vue');
 const LayoutMap = new Map<string, () => Promise<typeof import('*.vue')>>();
 
 LayoutMap.set('LAYOUT', Layout);
-LayoutMap.set('IFRAME', Iframe);
 
 /**
  * 格式化 后端 结构信息并递归生成层级路由表
@@ -76,9 +74,6 @@ export const asyncImportRoute = (routes: AppRouteRecordRaw[] | undefined): void 
   viewsModules = viewsModules || import.meta.glob('../views/**/*.{vue,tsx}');
   if (!routes) return;
   routes.forEach((item) => {
-    if (!item.component && item.meta?.frameSrc) {
-      item.component = 'IFRAME';
-    }
     const { component, name } = item;
     const { children } = item;
     if (component) {
