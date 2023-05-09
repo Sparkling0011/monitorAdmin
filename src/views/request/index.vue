@@ -1,16 +1,7 @@
 <template>
   <div>
-    <Overview
-      :showFooter="true"
-      :showHeader="true"
-      :request="loadDataTable"
-      :columns="columns"
-      v-model:range="range"
-      @update:range="handleRangeChange"
-    >
-      <template #title> 请求总览</template>
+    <Overview :tableInfos="tableInfo" v-model:range="range" @update:range="handleRangeChange">
       <template #chart>
-        <h4>请求趋势图</h4>
         <div class="echart" ref="divElRef" :style="{ height, width }"></div>
       </template>
       <template #tableName><h4>请求列表</h4></template>
@@ -19,97 +10,52 @@
 </template>
 
 <script setup lang="ts">
-  import { h, ref, onMounted, reactive } from 'vue';
-  import { NTag } from 'naive-ui';
-  import { getRequestErrorList } from '@/api/request';
+  import { ref, onMounted, watchEffect } from 'vue';
+  import { getRequestErrorList, getRequestDetail } from '@/api/request';
   import { useECharts } from '@/hooks/web/useECharts';
-  import { basicProps } from '../props';
   import Overview from '@/components/Overview/index.vue';
-  import { formatToDate, getInterval } from '@/utils/dateUtil';
   import { useProjectStore } from '@/store/modules/project';
+  import { basicProps } from '../props';
+  import { options } from './option';
+  import { columns } from './column';
 
   defineProps(basicProps);
 
-  const columns = [
-    {
-      title: '请求地址',
-      key: 'requestUrl',
-      width: 150,
-    },
-    {
-      title: '请求方法',
-      key: 'method',
-      width: 100,
-      render: (row) => {
-        return h(
-          NTag,
-          {
-            style: {
-              marginRight: '6px',
-            },
-            type: 'info',
-            bordered: false,
-          },
-          {
-            default: () => row.method,
-          }
-        );
-      },
-    },
-    {
-      title: '状态信息',
-      key: 'statusText',
-      width: 100,
-    },
-    {
-      title: '时间',
-      key: 'log_at',
-      width: 100,
-      render: (record) => formatToDate(new Date(record.log_at)),
-    },
-  ];
   const range = ref<[number, number]>([1681558250950, Date.now()]);
-  const data = ref(getInterval(range.value[0], range.value[1]));
-  const divElRef = ref(null);
+  const divElRef = ref();
   const projectStore = useProjectStore();
   const { setOptions } = useECharts(divElRef);
-
-  const options = reactive({
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: data.value,
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        data: [8, 10, 2, 5, 1],
-        type: 'line',
-      },
-    ],
-  });
 
   onMounted(() => {
     setOptions(options);
   });
 
   const handleRangeChange = (value) => {
-    const [startAt, endAt] = value;
-    options.xAxis.data = getInterval(startAt, endAt);
+    range.value = value;
     setOptions(options);
   };
+
+  watchEffect(async () => {
+    const listMap = await getRequestDetail({
+      pid: projectStore.pid,
+      startAt: range.value[0],
+      endAt: range.value[1],
+    });
+    options.xAxis.data = [...Object.keys(listMap)];
+    options.series[0].data = [...Object.values(listMap)];
+  });
 
   const params = ref({
     pageSize: 5,
   });
 
   const loadDataTable = async (res) => {
-    const [start_at, end_at] = range.value;
-    const query = { start_at, end_at, pid: projectStore.pid };
+    const [startAt, endAt] = range.value;
+    const query = { startAt, endAt, pid: projectStore.pid };
     return await getRequestErrorList({ ...params.value, ...res, ...query });
   };
+
+  const tableInfo = { request: loadDataTable, columns };
 </script>
 
 <style scoped></style>

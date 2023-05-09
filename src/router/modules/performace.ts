@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '性能',
       icon: renderIcon(SpeedometerSharp),
-      // permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
       sort: 4,
     },
     children: [
@@ -22,7 +21,6 @@ const routes: RouteRecordRaw[] = [
         name: `${routeName}_overview`,
         meta: {
           title: '性能总览',
-          // permissions: ['dashboard_console'],
         },
         component: () => import('@/views/perf/index.vue'),
       },

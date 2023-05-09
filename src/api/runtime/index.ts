@@ -1,16 +1,16 @@
 import { http } from '@/utils/http/axios';
 
-export function getRequestErrorList(params) {
+export function getRuntimeErrorList(params) {
   return http.request({
-    url: '/request/list',
+    url: '/runtime/list',
     method: 'GET',
     params,
   });
 }
 
-export function getRequestDetail(params) {
+export function getIntervalCount(params) {
   return http.request({
-    url: '/request/detail',
+    url: '/runtime/intervalCount',
     method: 'GET',
     params,
   });

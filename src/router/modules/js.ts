@@ -6,14 +6,13 @@ import { Layout } from '../constant';
 const routeName = 'overview';
 const routes: RouteRecordRaw[] = [
   {
-    path: '/js',
+    path: '/JS',
     name: routeName,
     redirect: '/error',
     component: Layout,
     meta: {
-      title: 'js',
+      title: 'JS',
       icon: renderIcon(LogoJavascript),
-      // permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
       sort: 1,
     },
     children: [
@@ -22,7 +21,6 @@ const routes: RouteRecordRaw[] = [
         name: `${routeName}_overview`,
         meta: {
           title: 'JS总览',
-          // permissions: ['dashboard_console'],
         },
         component: () => import('@/views/js/index.vue'),
       },

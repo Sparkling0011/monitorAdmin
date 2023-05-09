@@ -71,7 +71,6 @@ export function useDataSource(
         // The params parameter can be modified by outsiders
         params = (await beforeRequest(params)) || params;
       }
-      // console.log('DEBUG', params, opt);
       const res = await request({ ...params, ...opt });
 
       const resultTotal = res[totalField] || 0;
@@ -95,6 +94,7 @@ export function useDataSource(
       setPagination({
         [pageField]: currentPage,
         [totalField]: resultTotal,
+        itemCount: res.total,
       });
       if (opt && opt[pageField]) {
         setPagination({

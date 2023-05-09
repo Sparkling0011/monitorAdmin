@@ -1,16 +1,16 @@
 import { http } from '@/utils/http/axios';
 
-export function getRequestErrorList(params) {
+export function getResourceErrorList(params) {
   return http.request({
-    url: '/request/list',
+    url: '/resource/list',
     method: 'GET',
     params,
   });
 }
 
-export function getRequestDetail(params) {
+export function getResourceTrend(params) {
   return http.request({
-    url: '/request/detail',
+    url: '/resource/trend',
     method: 'GET',
     params,
   });

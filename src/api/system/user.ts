@@ -23,6 +23,17 @@ export function getUserInfo() {
 }
 
 /**
+ * @description: 修改用户信息
+ */
+export function updateUserInfo(params) {
+  return http.request({
+    url: '/user/update_info',
+    method: 'POST',
+    params,
+  });
+}
+
+/**
  * @description: 用户登录
  */
 export function login(params) {

@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '项目管理',
       icon: renderIcon(ProjectOutlined),
-      // permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
       sort: 0,
     },
     children: [
@@ -22,7 +21,6 @@ const routes: RouteRecordRaw[] = [
         name: `${routeName}_list`,
         meta: {
           title: '项目列表',
-          // permissions: ['dashboard_console'],
         },
         component: () => import('@/views/project/list/list.vue'),
       },

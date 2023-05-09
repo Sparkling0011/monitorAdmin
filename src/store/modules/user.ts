@@ -89,13 +89,14 @@ export const useUserStore = defineStore({
         getUserInfo()
           .then((res) => {
             const result = res;
-            if (result.permissions && result.permissions.length) {
-              const permissionsList = result.permissions;
-              that.setPermissions(permissionsList);
-              that.setUserInfo(result);
-            } else {
-              reject(new Error('getInfo: permissionsList must be a non-null array !'));
-            }
+            // if (result.permissions && result.permissions.length) {
+            //   const permissionsList = result.permissions;
+            //   that.setPermissions(permissionsList);
+            //   that.setUserInfo(result);
+            // } else {
+            //   reject(new Error('getInfo: permissionsList must be a non-null array !'));
+            // }
+            that.setUserInfo(result);
             that.setAvatar(result.avatar);
             resolve(res);
           })

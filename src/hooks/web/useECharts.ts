@@ -48,6 +48,7 @@ export function useECharts(
     }
 
     chartInstance = echarts.init(el, t);
+    console.log(chartInstance);
     const { removeEvent } = useEventListener({
       el: window,
       name: 'resize',

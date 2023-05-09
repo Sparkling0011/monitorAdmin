@@ -98,6 +98,7 @@ export const useAsyncRouteStore = defineStore({
       const { getPermissionMode } = useProjectSetting();
       const permissionMode = unref(getPermissionMode);
       if (permissionMode === 'BACK') {
+        console.log('DEBUG');
         // 动态获取菜单
         try {
           accessedRouters = await generatorDynamicRouter();

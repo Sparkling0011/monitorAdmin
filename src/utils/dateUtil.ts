@@ -10,14 +10,14 @@ export function formatToDateTime(date: Date, formatStr = DATE_TIME_FORMAT): stri
 export function formatToDate(date: Date, formatStr = DATE_FORMAT): string {
   return format(date, formatStr);
 }
-const intervalLength = 4;
 
-export function getInterval(start: number, end: number) {
+export function getInterval(start: number, end: number, intervalLength: number) {
   const startAt = new Date(start);
   const endAt = new Date(end);
   return eachHourOfInterval({ start: startAt, end: endAt }).reduce((acc, time, index) => {
     if (index % (24 / intervalLength) === 0) {
-      acc.push(format(time, 'yyyy-MM-dd HH:mm:ss'));
+      if (intervalLength === 1) acc.push(format(time, 'yyyy-MM-dd'));
+      else acc.push(format(time, 'yyyy-MM-dd HH:mm:ss'));
     }
     return acc;
   }, []);

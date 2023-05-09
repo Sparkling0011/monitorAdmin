@@ -46,6 +46,7 @@
   import { ResultEnum } from '@/enums/httpEnum';
   import { PersonOutline, LockClosedOutline } from '@vicons/ionicons5';
   import { PageEnum } from '@/enums/pageEnum';
+  import { useProjectStore } from '@/store/modules/project';
 
   interface FormState {
     auth: string;
@@ -59,6 +60,7 @@
   const LOGIN_NAME = PageEnum.BASE_LOGIN_NAME;
 
   const userStore = useUserStore();
+  const projectStore = useProjectStore();
 
   const router = useRouter();
   const route = useRoute();
@@ -95,6 +97,7 @@
             if (route.name === LOGIN_NAME) {
               router.replace('/');
             } else router.replace(toPath);
+            projectStore.updateProjectID(projectStore.projectList[0].pid);
           } else {
             message.info(msg || '登录失败');
           }

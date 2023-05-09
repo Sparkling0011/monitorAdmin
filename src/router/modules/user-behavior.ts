@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '用户行为',
       icon: renderIcon(ProjectOutlined),
-      // permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
       sort: 4,
     },
     children: [
@@ -22,9 +21,8 @@ const routes: RouteRecordRaw[] = [
         name: `${routeName}_js-error`,
         meta: {
           title: '用户行为',
-          // permissions: ['dashboard_console'],
         },
-        component: () => import('@/views/project/list/list.vue'),
+        component: () => import('@/views/behavior/index.vue'),
       },
     ],
   },

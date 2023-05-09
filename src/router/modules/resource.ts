@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '资源',
       icon: renderIcon(DocumentOutline),
-      // permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
       sort: 2,
     },
     children: [
@@ -22,7 +21,6 @@ const routes: RouteRecordRaw[] = [
         name: `${routeName}_overview`,
         meta: {
           title: '资源总览',
-          // permissions: ['dashboard_console'],
         },
         component: () => import('@/views/resource/index.vue'),
       },

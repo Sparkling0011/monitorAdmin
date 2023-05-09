@@ -529,7 +529,7 @@
 <style lang="less" scoped>
   .tabs-view {
     width: 100%;
-    padding: 6px 0;
+    padding: 6px 6px;
     display: flex;
     transition: all 0.2s ease-in-out;
 

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div class="layout-header">
     <!--顶部菜单-->
@@ -69,10 +70,18 @@
       </n-breadcrumb>
     </div>
     <div class="layout-header-right">
+      <n-select
+        class="w-36"
+        v-model:value="value"
+        size="small"
+        :options="options"
+        placeholder="请选择项目"
+        @update:value="handleProjectValue"
+      />
       <div
         class="layout-header-trigger layout-header-trigger-min"
         v-for="item in iconList"
-        :key="item.icon.name"
+        :key="item.icon"
       >
         <n-tooltip placement="bottom">
           <template #trigger>
@@ -131,6 +140,7 @@
   import { NDialogProvider, useDialog, useMessage } from 'naive-ui';
   import { TABS_ROUTES } from '@/store/mutation-types';
   import { useUserStore } from '@/store/modules/user';
+  import { useProjectStore } from '@/store/modules/project';
   import { useLockscreenStore } from '@/store/modules/lockscreen';
   import ProjectSetting from './ProjectSetting.vue';
   import { AsideMenu } from '@/layout/components/Menu';
@@ -148,8 +158,10 @@
         type: Boolean,
       },
     },
+    emits: ['update:collapsed'],
     setup(props) {
       const userStore = useUserStore();
+      const projectStore = useProjectStore();
       const useLockscreen = useLockscreenStore();
       const message = useMessage();
       const dialog = useDialog();
@@ -159,6 +171,24 @@
       const { username } = userStore?.info || {};
 
       const drawerSetting = ref();
+
+      const value = ref(projectStore.pid);
+      console.log(value.value);
+
+      const options = ref<any[]>([]);
+
+      projectStore.getProjectList({}).then(() => {
+        const list = projectStore.projectList;
+        options.value = list.map((item) => ({
+          label: item.pname,
+          value: item.pid,
+        }));
+      });
+
+      const handleProjectValue = (project) => {
+        value.value = project;
+        projectStore.updateProjectID(project);
+      };
 
       const state = reactive({
         username: username || '',
@@ -314,6 +344,9 @@
         iconList,
         toggleFullScreen,
         doLogout,
+        value,
+        options,
+        handleProjectValue,
         route,
         dropdownSelect,
         avatarOptions,

@@ -74,6 +74,7 @@
       v-bind="getBindValues"
       :bordered="false"
       :striped="isStriped"
+      :max-height="250"
       :pagination="pagination"
       @update:page="updatePage"
       @update:page-size="updatePageSize"
@@ -231,6 +232,8 @@
 
       //获取分页信息
       const pagination = computed(() => toRaw(unref(getPaginationInfo)));
+
+      console.log('pagination', pagination.value);
 
       function setProps(props: Partial<BasicTableProps>) {
         innerPropsRef.value = { ...unref(innerPropsRef), ...props };
