@@ -106,7 +106,17 @@
               return true;
             },
             // 根据权限控制是否显示: 有权限，会显示，支持多个
-            auth: ['basic_list'],
+            // auth: ['basic_list'],
+          },
+          {
+            label: '查看详情',
+            onClick: handleDelete.bind(null, record),
+            // 根据业务控制是否显示 isShow 和 auth 是并且关系
+            ifShow: () => {
+              return true;
+            },
+            // 根据权限控制是否显示: 有权限，会显示，支持多个
+            // auth: ['basic_list'],
           },
         ],
         select: (key) => {

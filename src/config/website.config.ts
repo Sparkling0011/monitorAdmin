@@ -3,7 +3,7 @@
 import logoDark from '@/assets/images/logo-black.png';
 
 export const websiteConfig = Object.freeze({
-  title: '前端监控系统',
+  title: 'Web应用性能及质量监控系统',
   logo: logoDark,
   loginDesc: '',
 });
